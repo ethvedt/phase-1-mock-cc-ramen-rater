@@ -4,7 +4,9 @@ const details = document.querySelector("#ramen-detail");
 document.addEventListener("DOMContentLoaded", function() {
     createMenu();
     const form = document.querySelector("#new-ramen");
-    form.addEventListener("submit", handleSubmit);
+    form.addEventListener("submit", handleNewSubmit);
+    const editForm = document.querySelector("#edit-ramen");
+    editForm.addEventListener("submit", handleEditSubmit);
 });
 
 function createMenu() {
@@ -21,6 +23,7 @@ function createMenu() {
                     const detailImage = document.querySelector(".detail-image");
                     detailImage.src = ramen.image;
                     detailImage.alt = ramen.name;
+                    detailImage.id = "id"+ramen.id;
                     const name = document.querySelector(".name");
                     name.textContent = ramen.name;
                     const restaurant = document.querySelector(".restaurant");
@@ -34,9 +37,9 @@ function createMenu() {
             const firstRamen = document.querySelector('#id1');
             firstRamen.dispatchEvent(new Event("click"));
         })
-    }
+}
 
-function handleSubmit(event) {
+function handleNewSubmit(event) {
     event.preventDefault();
     const newName = event.target.querySelector("#new-name").value;
     const newRestaurant = event.target.querySelector("#new-restaurant").value;
@@ -68,6 +71,7 @@ function handleSubmit(event) {
             const detailImage = document.querySelector(".detail-image");
             detailImage.src = data.image;
             detailImage.alt = data.name;
+            detailImage.id = "id"+ramen.id;
             const name = document.querySelector(".name");
             name.textContent = data.name;
             const restaurant = document.querySelector(".restaurant");
@@ -82,6 +86,31 @@ function handleSubmit(event) {
 
 }
 
+function handleEditSubmit(event) {
+    event.preventDefault();
+    const editRating = document.querySelector("#edit-rating").value;
+    const editComment = document.querySelector("#edit-comment").value;
+    const currentRamenId = document.querySelector(".detail-image").id.split("id")[1];
+    const editRamenObj = {
+        rating: editRating,
+        comment: editComment
+    }
+    fetch(`http://localhost:3000/ramens/${currentRamenId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        body: JSON.stringify(editRamenObj)
+    })
+    .then(response => response.json())
+    .then(data => {
+        const rating = document.querySelector("#rating-display");
+        rating.textContent = data.rating;
+        const comment = document.querySelector("#comment-display");
+        comment.textContent = data.comment; 
+    })
+}
 ////////////////////////////////////////////////////////////////
 // It helped me to write this function separately, but I couldn't figure out how to pass the json data.
 // function handleRamenClick(ramen) {
