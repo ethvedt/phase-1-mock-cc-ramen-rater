@@ -15,6 +15,7 @@ function createMenu() {
                 const image = document.createElement("img");
                 image.src = ramen.image;
                 image.alt = ramen.name;
+                image.id = "id"+ramen.id;
                 menu.appendChild(image);
                 image.addEventListener("click",  () => {   
                     const detailImage = document.querySelector(".detail-image");
@@ -30,6 +31,8 @@ function createMenu() {
                     comment.textContent = ramen.comment;
                     });
             })
+            const firstRamen = document.querySelector('#id1');
+            firstRamen.dispatchEvent(new Event("click"));
         })
     }
 
@@ -59,6 +62,7 @@ function handleSubmit(event) {
         const image = document.createElement("img");
         image.src = data.image;
         image.alt = data.name;
+        image.id = "id"+ramen.id;
         menu.appendChild(image);
         image.addEventListener("click",  () => {   
             const detailImage = document.querySelector(".detail-image");
