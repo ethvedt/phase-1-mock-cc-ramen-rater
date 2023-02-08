@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
     form.addEventListener("submit", handleNewSubmit);
     const editForm = document.querySelector("#edit-ramen");
     editForm.addEventListener("submit", handleEditSubmit);
+    const deleteButton = document.querySelector("#delete-ramen");
+    deleteButton.addEventListener("click", handleDelete);
 });
 
 function createMenu() {
@@ -111,6 +113,18 @@ function handleEditSubmit(event) {
         comment.textContent = data.comment; 
     })
 }
+
+// function handleDelete(event) {
+//     event.preventDefault();
+//     const currentRamenId = document.querySelector(".detail-image").id.split("id")[1];
+//     fetch(`http://localhost:3000/ramens/${currentRamenId}`, {
+//         method: "DELETE"
+//     })
+//    .then(response => response.json())
+//    .then(data => {
+//     console.log(data);
+//    })
+// }
 ////////////////////////////////////////////////////////////////
 // It helped me to write this function separately, but I couldn't figure out how to pass the json data.
 // function handleRamenClick(ramen) {
